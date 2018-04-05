@@ -50,8 +50,12 @@ public class MainActivity extends AppCompatActivity implements Network.NetworkTa
             JSONObject json = new JSONObject(data);
             JSONArray results = json.getJSONArray("results");
             JSONObject resultsArray = results.getJSONObject(0);
+            JSONArray addressComponents = resultsArray.getJSONArray("address_components");
+            JSONObject postal = addressComponents.getJSONObject(6);
+            String zip_code = postal.getString("short_name");
             JSONObject geometry = resultsArray.getJSONObject("geometry");
             JSONObject location = geometry.getJSONObject("location");
+            System.out.println(zip_code);
             latitude = location.getDouble("lat");
             longitude = location.getDouble("lng");
             Intent locationIntent = new Intent(getApplicationContext(), MapLocation.class);
