@@ -14,31 +14,32 @@ import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements Network.NetworkTask{
 
-    public static final String urlString = "http://maps.googleapis.com/maps/api/geocode/json?";
-    URL geolocationURL;
+    private static final String apiKey = "AIzaSyB1DPTsxxN-A-xuFyZ-68XZVkecC3UakbE";
+    private static final String urlString = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+    private URL geolocationURL;
 
-    EditText addressInput;
-    Button addressInputButton;
+    private EditText streetAddressText;
+    private EditText cityAddressText;
+    private EditText stateAddressText;
+    private Button addressInputButton;
 
-    double latitude;
-    double longitude;
+    private double latitude;
+    private double longitude;
+    private String zip_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addressInput = (EditText) findViewById(R.id.address_input);
+        streetAddressText = (EditText) findViewById(R.id.street_address_text);
+        cityAddressText = (EditText) findViewById(R.id.city_address_text);
+        stateAddressText = (EditText) findViewById(R.id.state_address_text);
         addressInputButton = (Button) findViewById(R.id.address_input_btn);
+
         addressInputButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    geolocationURL = new URL("https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyB1DPTsxxN-A-xuFyZ-68XZVkecC3UakbE");
-                } catch (NullPointerException e) {
-                    System.out.println(e);
-                } catch (MalformedURLException e) {
-                    System.out.println(e);
-                }
+                buildURL();
                 new Network(MainActivity.this).execute(geolocationURL);
             }
         });
@@ -51,19 +52,43 @@ public class MainActivity extends AppCompatActivity implements Network.NetworkTa
             JSONArray results = json.getJSONArray("results");
             JSONObject resultsArray = results.getJSONObject(0);
             JSONArray addressComponents = resultsArray.getJSONArray("address_components");
-            JSONObject postal = addressComponents.getJSONObject(6);
-            String zip_code = postal.getString("short_name");
+            for (int i = 0; i < addressComponents.length(); i++) {
+                if ((addressComponents.getJSONObject(i).getJSONArray("types").getString(0)).equals("postal_code")) {
+                    JSONObject postal = addressComponents.getJSONObject(i);
+                    zip_code = postal.getString("short_name");
+                }
+            }
             JSONObject geometry = resultsArray.getJSONObject("geometry");
             JSONObject location = geometry.getJSONObject("location");
-            System.out.println(zip_code);
             latitude = location.getDouble("lat");
             longitude = location.getDouble("lng");
             Intent locationIntent = new Intent(getApplicationContext(), MapLocation.class);
+            locationIntent.putExtra("zip_code", zip_code);
             locationIntent.putExtra("latitude", latitude);
             locationIntent.putExtra("longitude", longitude);
             startActivity(locationIntent);
         }
         catch (org.json.JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void buildURL() {
+        String finalURL = urlString;
+
+        String streetAddressString = streetAddressText.getText().toString();
+        streetAddressString = streetAddressString.replace(" ", "+");
+
+        String cityAddressString = cityAddressText.getText().toString();
+        cityAddressString = cityAddressString.replace(" ", "+");
+
+        String stateAddressString = stateAddressText.getText().toString();
+
+        finalURL += streetAddressString + ",+" + cityAddressString + ",+" + stateAddressString + "&key=" + apiKey;
+        try {
+            geolocationURL = new URL(finalURL);
+        }
+        catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }

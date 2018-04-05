@@ -15,11 +15,13 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback 
     private GoogleMap mMap;
     private double latitude;
     private double longitude;
+    private String zip_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_location);
+        zip_code = getIntent().getStringExtra("zip_code");
         latitude = getIntent().getDoubleExtra("latitude", 37.0);
         longitude = getIntent().getDoubleExtra("longitude", 122.0);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
