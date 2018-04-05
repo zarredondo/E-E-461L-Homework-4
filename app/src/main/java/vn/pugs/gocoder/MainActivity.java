@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements Network.NetworkTa
             JSONObject location = geometry.getJSONObject("location");
             latitude = location.getDouble("lat");
             longitude = location.getDouble("lng");
-            Intent locationIntent = new Intent(getApplicationContext(), Location.class);
+            Intent locationIntent = new Intent(getApplicationContext(), MapLocation.class);
             locationIntent.putExtra("latitude", latitude);
             locationIntent.putExtra("longitude", longitude);
             startActivity(locationIntent);

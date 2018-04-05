@@ -1,20 +1,15 @@
 package vn.pugs.gocoder;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.MapView;
 
 /**
  * Created by Brandon on 4/3/2018.
  */
 
-public class Location extends MapActivity {
+public class Location {
 
-    private MapView mapView;
-    GeoPoint geoPoint;
+
 }
