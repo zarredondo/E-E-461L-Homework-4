@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/E-E-461L-Homework-4.iml" filepath="$PROJECT_DIR$/E-E-461L-Homework-4.iml" />
-      <module fileurl="file://C:\Users\Brandon\Desktop\GOcoder\E-E-461L-Homework-4\GOcoder.iml" filepath="C:\Users\Brandon\Desktop\GOcoder\E-E-461L-Homework-4\GOcoder.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GOcoder.iml" filepath="$PROJECT_DIR$/GOcoder.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
