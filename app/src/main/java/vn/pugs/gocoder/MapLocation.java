@@ -17,6 +17,10 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback 
     private double longitude;
     private String zip_code;
 
+    private double userLatitude;
+    private double userLongitude;
+    private boolean userLocationButtonStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +28,9 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback 
         zip_code = getIntent().getStringExtra("zip_code");
         latitude = getIntent().getDoubleExtra("latitude", 37.0);
         longitude = getIntent().getDoubleExtra("longitude", 122.0);
+        userLatitude = getIntent().getDoubleExtra("userLatitude", 37.0);
+        userLongitude = getIntent().getDoubleExtra("userLongitude", 122.0);
+        userLocationButtonStatus = getIntent().getBooleanExtra("userLocationButtonStatus",false);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -45,8 +52,15 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback 
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng myLocation = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(myLocation).title("Marker in my designated location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+        LatLng userLocation;
+        if (userLocationButtonStatus) {
+            userLocation = new LatLng(userLatitude, userLongitude);
+            mMap.addMarker(new MarkerOptions().position(userLocation).title("Marker in my current location"));
+        }
+
+        LatLng inputLocation = new LatLng(latitude, longitude);
+        mMap.addMarker(new MarkerOptions().position(inputLocation).title("Marker in my designated location"));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(inputLocation));
     }
 }
