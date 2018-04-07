@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="Street (e.g. 1600 Amphitheatre Parkway)"
         app:layout_constraintBottom_toTopOf="@+id/origin_city_address_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="City (e.g. Mountain View)"
         app:layout_constraintBottom_toTopOf="@+id/origin_state_address_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:hint="State (e.g. CA)"
         app:layout_constraintBottom_toTopOf="@+id/destination_street_address_text"
         app:layout_constraintEnd_toEndOf="parent"
@@ -86,6 +83,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/user_location_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:text="Display Your Current Location"
+        app:layout_constraintEnd_toStartOf="@+id/user_location_btn"
+        app:layout_constraintHorizontal_bias="0.793"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/user_location_btn" />
 
 
 </android.support.constraint.ConstraintLayout>

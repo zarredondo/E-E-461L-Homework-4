@@ -36,17 +36,23 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
     private double destLongitude;
     private String dest_place_id;
 
+    private double userLatitude;
+    private double userLongitude;
+    private boolean userLocationButtonStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_location);
-
         originLatitude = getIntent().getDoubleExtra("latitude" + 0, 37.0);
         originLongitude = getIntent().getDoubleExtra("longitude" + 0, 122.0);
         origin_place_id = getIntent().getStringExtra("place_id" + 0);
         destLatitude = getIntent().getDoubleExtra("latitude" + 1, -9000);
         destLongitude = getIntent().getDoubleExtra("longitude" + 1, -9000);
         dest_place_id = getIntent().getStringExtra("place_id" + 1);
+        userLatitude = getIntent().getDoubleExtra("userLatitude", 37.0);
+        userLongitude = getIntent().getDoubleExtra("userLongitude", 122.0);
+        userLocationButtonStatus = getIntent().getBooleanExtra("userLocationButtonStatus",false);
         if (destLatitude != -9000) {
             buildURL();
             new Network(MapLocation.this).execute(destinationURL);
@@ -79,6 +85,11 @@ public class MapLocation extends FragmentActivity implements OnMapReadyCallback,
             mMap.addMarker(new MarkerOptions().position(destinationLocation).title("Marker in my designated location"));
         }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+        LatLng userLocation;
+        if (userLocationButtonStatus) {
+            userLocation = new LatLng(userLatitude, userLongitude);
+            mMap.addMarker(new MarkerOptions().position(userLocation).title("Marker in my current location"));
+        }
     }
 
     @Override
