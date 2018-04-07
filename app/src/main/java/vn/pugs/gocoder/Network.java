@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zarredondo on 3/27/2018.
@@ -17,36 +19,40 @@ import java.net.URL;
 
 
 
-public class Network extends AsyncTask<URL, Void, String> {
+public class Network extends AsyncTask<URL, Void, List<String>> {
     public NetworkTask networkTask = null;
 
     public interface NetworkTask {
-        void onResponseReceived(String data);
+        void onResponseReceived(List<String> data);
     }
 
     public Network(NetworkTask networkTask) {
         this.networkTask = networkTask;
     }
-    protected String doInBackground(URL... urls) {
-        URL geolocationURL = urls[0];
-        String outputStream = new String();
-        try {
-            HttpURLConnection connection = (HttpURLConnection) geolocationURL.openConnection();
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = br.readLine()) != null) {
-                sb.append(line + "\n");
+
+    protected List<String> doInBackground(URL... urls) {
+        List<String> result = new ArrayList<>();
+        for(URL url : urls) {
+            URL geolocationURL = url;
+            String outputStream = new String();
+            try {
+                HttpURLConnection connection = (HttpURLConnection) geolocationURL.openConnection();
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+                outputStream = sb.toString();
+            } catch (IOException e) {
+                System.out.println(e);
             }
-            outputStream = sb.toString();
+            result.add(outputStream);
         }
-        catch (IOException e) {
-            System.out.println(e);
-        }
-        return outputStream;
+        return result;
     }
 
-    protected void onPostExecute(String data) {
+    protected void onPostExecute(List<String> data) {
         networkTask.onResponseReceived(data);
     }
 }
